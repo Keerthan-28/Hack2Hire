@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Engine | AI Simulator</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="glass-panel">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <h1>Interview<span class="highlight">Sim</span></h1>
+            </div>
+            <div class="status-badge" id="system-status">System Ready</div>
+        </header>
+
+        <main class="main-grid">
+            <!-- Left Panel: Input -->
+            <section class="input-section glass-panel">
+                <div class="section-header">
+                    <h2>Interview Log Input</h2>
+                    <div class="actions">
+                        <button id="load-example-btn" class="btn secondary">Load Example</button>
+                        <button id="clear-btn" class="btn text-only">Clear</button>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <textarea id="json-input" placeholder="Paste interview JSON here..."></textarea>
+                </div>
+                <button id="process-btn" class="btn primary full-width">
+                    <span class="btn-text">Run Simulation</span>
+                    <div class="loader hidden"></div>
+                </button>
+            </section>
+
+            <!-- Right Panel: Results -->
+            <section class="results-section glass-panel" id="results-panel">
+                <div class="empty-state" id="empty-state">
+                    <div class="icon">📊</div>
+                    <h3>No Data Processed</h3>
+                    <p>Run a simulation to view the readiness score and analysis.</p>
+                </div>
+
+                <div class="results-content hidden" id="results-content">
+                    <!-- Top Cards -->
+                    <div class="score-overview">
+                        <div class="score-card main-score">
+                            <span class="label">Readiness Score</span>
+                            <div class="value" id="final-score">--</div>
+                            <div class="progress-ring">
+                                <svg>
+                                    <circle cx="60" cy="60" r="50"></circle>
+                                    <circle cx="60" cy="60" r="50" id="score-ring"></circle>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <span class="label">Questions</span>
+                                <span class="value" id="stats-questions">--</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="label">Avg Time</span>
+                                <span class="value" id="stats-time">--%</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="label">Interruptions</span>
+                                <span class="value" id="stats-interruptions">--</span>
+                            </div>
+                            <div class="stat-box warning hidden" id="termination-box">
+                                <span class="label">Termination</span>
+                                <span class="value" id="stats-termination">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Breakdown Table -->
+                    <div class="breakdown-container">
+                        <h3>Detailed Breakdown</h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>QID</th>
+                                        <th>Raw</th>
+                                        <th>Time Pen.</th>
+                                        <th>Int. Pen.</th>
+                                        <th>Weight</th>
+                                        <th>Final (W)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="breakdown-body">
+                                    <!-- Rows injected by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- State Log -->
+                    <div class="logs-container">
+                        <h3>State Transitions</h3>
+                        <div class="log-timeline" id="state-log">
+                            <!-- Logs injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/script.js"></script>
+</body>
+</html>
