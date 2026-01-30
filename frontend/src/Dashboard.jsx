@@ -3,15 +3,45 @@ import axios from 'axios';
 import { Play, RotateCcw, Activity } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
-const sampleData = {
-    candidate_id: "C1023",
-    role: "Software Engineer",
-    questions: [
-        { question_id: 1, difficulty: "easy", time_taken: 28, max_time: 60, answer_quality: 0.8 },
-        { question_id: 2, difficulty: "medium", time_taken: 75, max_time: 60, answer_quality: 0.4 },
-        { question_id: 3, difficulty: "medium", time_taken: 45, max_time: 60, answer_quality: 0.9 },
-        { question_id: 4, difficulty: "hard", time_taken: 110, max_time: 120, answer_quality: 0.85 },
-    ]
+const samples = {
+    strong: {
+        candidate_id: "C_STRONG",
+        role: "Senior Engineer",
+        questions: [
+            { question_id: 1, difficulty: "medium", time_taken: 45, max_time: 60, answer_quality: 0.95 },
+            { question_id: 2, difficulty: "hard", time_taken: 80, max_time: 120, answer_quality: 0.9 },
+            { question_id: 3, difficulty: "hard", time_taken: 90, max_time: 120, answer_quality: 1.0 },
+            { question_id: 4, difficulty: "hard", time_taken: 50, max_time: 120, answer_quality: 0.9 },
+        ]
+    },
+    borderline: {
+        candidate_id: "C_BORDER",
+        role: "Junior Dev",
+        questions: [
+            { question_id: 1, difficulty: "easy", time_taken: 50, max_time: 60, answer_quality: 0.6 },
+            { question_id: 2, difficulty: "medium", time_taken: 70, max_time: 60, answer_quality: 0.5 },
+            { question_id: 3, difficulty: "medium", time_taken: 55, max_time: 60, answer_quality: 0.7 },
+        ]
+    },
+    termination: {
+        candidate_id: "C_FAIL",
+        role: "Intern",
+        questions: [
+            { question_id: 1, difficulty: "easy", time_taken: 20, max_time: 60, answer_quality: 0.2 },
+            { question_id: 2, difficulty: "easy", time_taken: 20, max_time: 60, answer_quality: 0.1 },
+            { question_id: 3, difficulty: "easy", time_taken: 20, max_time: 60, answer_quality: 0.1 },
+            { question_id: 4, difficulty: "easy", time_taken: 20, max_time: 60, answer_quality: 0.5 },
+        ]
+    },
+    adaptive: {
+        candidate_id: "C_ADAPT",
+        role: "System Architect",
+        questions: [
+            { question_id: 1, difficulty: "medium", time_taken: 40, max_time: 60, answer_quality: 0.9 }, // High score -> Harder
+            { question_id: 2, difficulty: "hard", time_taken: 100, max_time: 120, answer_quality: 0.4 }, // Low score -> Easier
+            { question_id: 3, difficulty: "medium", time_taken: 50, max_time: 60, answer_quality: 0.8 },
+        ]
+    }
 };
 
 export default function Dashboard() {
@@ -44,8 +74,8 @@ export default function Dashboard() {
         }
     };
 
-    const loadExample = () => {
-        setJsonInput(JSON.stringify(sampleData, null, 2));
+    const loadSample = (key) => {
+        setJsonInput(JSON.stringify(samples[key], null, 2));
     };
 
     return (
@@ -68,14 +98,20 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Input Section */}
                 <section className="lg:col-span-1 glass-panel p-6 flex flex-col h-[calc(100vh-140px)]">
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-lg font-semibold text-slate-200">Input Log</h2>
-                        <div className="space-x-2">
-                            <button
-                                onClick={loadExample}
-                                className="text-xs px-3 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
-                            >
-                                Load Example
+                    <div className="mb-4">
+                        <h2 className="text-lg font-semibold text-slate-200 mb-2">Load Scenario</h2>
+                        <div className="grid grid-cols-2 gap-2">
+                            <button onClick={() => loadSample('strong')} className="text-xs px-3 py-2 rounded bg-slate-800 hover:bg-green-900/30 text-slate-300 hover:text-green-400 transition border border-transparent hover:border-green-500/30">
+                                🚀 Strong Hire
+                            </button>
+                            <button onClick={() => loadSample('borderline')} className="text-xs px-3 py-2 rounded bg-slate-800 hover:bg-yellow-900/30 text-slate-300 hover:text-yellow-400 transition border border-transparent hover:border-yellow-500/30">
+                                ⚖️ Borderline
+                            </button>
+                            <button onClick={() => loadSample('termination')} className="text-xs px-3 py-2 rounded bg-slate-800 hover:bg-red-900/30 text-slate-300 hover:text-red-400 transition border border-transparent hover:border-red-500/30">
+                                🛑 Termination
+                            </button>
+                            <button onClick={() => loadSample('adaptive')} className="text-xs px-3 py-2 rounded bg-slate-800 hover:bg-indigo-900/30 text-slate-300 hover:text-indigo-400 transition border border-transparent hover:border-indigo-500/30">
+                                📈 Adaptive
                             </button>
                         </div>
                     </div>
